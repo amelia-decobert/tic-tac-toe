@@ -1,5 +1,5 @@
 // Create a component
-export default function Square() {
+export default function Board() {
   return (
     // Use JSX Fragments <></> to wrap JSX elements
   <>
