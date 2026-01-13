@@ -1,8 +1,13 @@
 // Create new component
 // Square component receives value prop from board
 export function Square({ value }) {
+  // Declare handleclick function
+  function handleclick() {
+    console.log("Click!")
+  }
   // Display value inside button
-  return  <button className="square">{ value }</button>
+  // Add onclick prop to handle button clicks
+  return  <button className="square" onClick={handleclick}>{ value }</button>
 }
 
 // Create component
