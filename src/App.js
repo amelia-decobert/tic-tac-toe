@@ -2,26 +2,19 @@
 import { useState } from "react"
 
 // Create new component
-export function Square() {
-  // Define intial value and set value with useState
-  // null as initial value
-  const [value, setValue] = useState(null)
-
-  // Declare handleclick function
-  function handleclick() {
-    // Set up "X" value to display X on click
-    setValue("X")
-    // when the button clicked, call set function to update the square
-    // After updating, the square will show "X" on board
-  }
-
+// Square component receives value prop from board
+export function Square({ value }) {
   // Display value inside button
   // Add onclick prop to handle button clicks
-  return  <button className="square" onClick={handleclick}>{ value }</button>
+  return  <button className="square">{ value }</button>
 }
 
 // Create component
+// The component maintains the list of squares and their contents
 export default function Board() {
+  // Define initial value and set value for squares with useState
+  // Array of 9 elements filled null, corresponding to 9 squares
+  const [squares, setSquares] = useState(Array(9).fill(null))
   return (
     // Use JSX Fragments <></> to wrap JSX elements
   <>
@@ -30,19 +23,20 @@ export default function Board() {
   <div className="board-row">
 
     {/* Use new component Square */}
-    <Square />
-    <Square /> 
-    <Square /> 
+    {/* Pass value prop to each square */}
+    <Square value={squares[0]} />
+    <Square value={squares[1]} /> 
+    <Square value={squares[2]} /> 
   </div>
   <div className="board-row">
-    <Square /> 
-    <Square /> 
-    <Square /> 
+    <Square value={squares[3]} /> 
+    <Square value={squares[4]} /> 
+    <Square value={squares[5]} /> 
   </div>
   <div className="board-row"> 
-    <Square /> 
-    <Square /> 
-    <Square /> 
+    <Square value={squares[6]} /> 
+    <Square value={squares[7]} /> 
+    <Square value={squares[8]} /> 
   </div>
   </>
   )
