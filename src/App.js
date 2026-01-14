@@ -52,3 +52,14 @@ export default function Board() {
   </>
   )
 }
+
+// HOW IT WORKS:
+// 1.Clicking on the upper left square runs the function that the `button` received as its `onClick` prop from the `Square`. 
+// The `Square` component received that function as its `onSquareClick` prop from the `Board`. 
+// The `Board` component defined that function directly in the JSX.
+// It calls `handleClick` with an argument of `0`.
+
+// 2.`handleClick` uses the argument (`0`) to update the first element of the `squares` array from `null` to `X`.
+
+// 3.The `squares` state of the `Board` component was updated, so the `Board` and all of its children re-render.
+// This causes the `value` prop of the `Square` component with index `0` to change from `null` to `X`.
