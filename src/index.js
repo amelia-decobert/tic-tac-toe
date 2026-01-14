@@ -1,6 +1,4 @@
-// Enables additional checks and warnings during development
 import { StrictMode } from "react";
-// React library that interacts with the web browser
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
