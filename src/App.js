@@ -12,6 +12,8 @@ export function Square({ value, onSquareClick }) {
 // Create component
 // The component maintains the list of squares and their contents
 export default function Board() {
+  // Set first move to be "X" by default
+  const [xIsNext, setXIsNext] = useState(true);
   // Define initial value and set value for squares with useState
   // Array of 9 elements filled null, corresponding to 9 squares
   const [squares, setSquares] = useState(Array(9).fill(null));
@@ -19,12 +21,25 @@ export default function Board() {
   // Define handleClick function to use it in onSquareClick prop
   // Add "i" in params function to receive index of the square to update
   function handleClick(i) {
+    // Return early to check if square already has "X" or "O"
+    if (squares[i]) {
+    // If already filled, return early, before it tries to update
+      return;
+    }
     // Get a copy of the array with .slice() method
     const nextSquares = squares.slice();
+    // Flip the value if xIsNext
+    if (xIsNext) {
     //Update new array by adding "X" on square with index "i"
     nextSquares[i] = "X";
+  } else {
+    //Update new array by adding "O" on square with index "i"
+    nextSquares[i] = "O";
+  }
     // Call setSquares function to inform that state has changed
     setSquares(nextSquares);
+    // Call setXIsNext function to inform that xIsNext is false
+    setXIsNext(!xIsNext);
   }
   return (
     // Use JSX Fragments <></> to wrap JSX elements
@@ -52,14 +67,3 @@ export default function Board() {
   </>
   )
 }
-
-// HOW IT WORKS:
-// 1.Clicking on the upper left square runs the function that the `button` received as its `onClick` prop from the `Square`. 
-// The `Square` component received that function as its `onSquareClick` prop from the `Board`. 
-// The `Board` component defined that function directly in the JSX.
-// It calls `handleClick` with an argument of `0`.
-
-// 2.`handleClick` uses the argument (`0`) to update the first element of the `squares` array from `null` to `X`.
-
-// 3.The `squares` state of the `Board` component was updated, so the `Board` and all of its children re-render.
-// This causes the `value` prop of the `Square` component with index `0` to change from `null` to `X`.
