@@ -57,6 +57,8 @@ export function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true)
   const [history, setHistory] = useState([Array(9).fill(null)])
+  // Keep track of which step the user is currently viewing
+  const [currentMove, setCurrentMove] = useState(0)
   const currentSquares = history[history.length - 1]
 
   function handlePlay(nextSquares) {
@@ -65,7 +67,8 @@ export default function Game() {
   }
 
   function jumpTo(nextMove) {
-    // TODO
+    setCurrentMove(nextMove)
+    setXIsNext(nextMove % 2 === 0)
   }
 
   // Use map to transform history of moves into React elements representing buttons
@@ -78,7 +81,9 @@ export default function Game() {
       description = "Go to game start"
     }
     return (
-      <li>
+      // In the history, each past move has a unique ID associated with it
+      // so it's safe to use the move index as a key
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     )
