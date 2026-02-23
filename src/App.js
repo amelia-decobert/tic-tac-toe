@@ -64,13 +64,34 @@ export default function Game() {
     setXIsNext(!xIsNext)
   }
 
+  function jumpTo(nextMove) {
+    // TODO
+  }
+
+  // Use map to transform history of moves into React elements representing buttons
+  const moves = history.map((squares, move) => {
+    let description
+
+    if (move > 0) {
+      description = "Go to move #" + move
+    } else {
+      description = "Go to game start"
+    }
+    return (
+      <li>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    )
+  })
+
   return (
     <div className="game">
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{/*TODO*/}</ol>
+        {/* Display a list of buttons to jump to past moves */}
+        <ol>{moves}</ol>
       </div>
     </div>
   )
