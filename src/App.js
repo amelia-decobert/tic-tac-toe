@@ -4,11 +4,7 @@ export function Square({ value, onSquareClick }) {
   return <button className="square" onClick={onSquareClick}>{value}</button>
 }
 
-// Make the Board component fully controlled by the props it receives
-export function Board({xIsNext, squares, onPlay}) {
-  // Then, remove the useState
-  // const [xIsNext, setXIsNext] = useState(true);
-  // const [squares, setSquares] = useState(Array(9).fill(null));
+export function Board({ xIsNext, squares, onPlay }) {
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
@@ -23,12 +19,6 @@ export function Board({xIsNext, squares, onPlay}) {
       nextSquares[i] = "O";
     }
 
-    // And remove the setter calls
-    // setSquares(nextSquares);
-    // setXIsNext(!xIsNext);
-
-    // Now replace with a single call to onPlay function
-    // so the Game component can update the Board when the user clicks a square
     onPlay(nextSquares)
   }
 
@@ -64,24 +54,19 @@ export function Board({xIsNext, squares, onPlay}) {
   )
 }
 
-// Game component has full control over the Board's data and lets it instruct the Board to render previous turns from the history
 export default function Game() {
-  // Add some state to the component to track which player is next and the history of moves
   const [xIsNext, setXIsNext] = useState(true)
   const [history, setHistory] = useState([Array(9).fill(null)])
-  // Read the last squares array from the history to render the squares for the current move
   const currentSquares = history[history.length - 1]
 
-  // handlePlay function will be called by the Board component to update the game
   function handlePlay(nextSquares) {
     setHistory([...history, nextSquares])
     setXIsNext(!xIsNext)
-    }
-    
+  }
+
   return (
     <div className="game">
       <div className="game-board">
-        {/* Pass xIsNext, currentSquares and handlePlay as props */}
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
