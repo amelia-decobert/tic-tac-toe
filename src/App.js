@@ -55,20 +55,33 @@ export function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true)
+  // Do not store xIsNext as a separate state...
+  // const [xIsNext, setXIsNext] = useState(true)
   const [history, setHistory] = useState([Array(9).fill(null)])
   // Keep track of which step the user is currently viewing
   const [currentMove, setCurrentMove] = useState(0)
-  const currentSquares = history[history.length - 1]
+  // ... instead, figure it out based on the current move
+  const xIsNext = currentMove % 2 === 0
+  // Render the currently selected move
+  const currentSquares = history[currentMove]
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares])
-    setXIsNext(!xIsNext)
+    // If you "go back in time" and then make a new move from that point
+    // You only want to keep the history up to that point
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+    setHistory(nextHistory)
+    // Each time a move is made, you need to update current move to point to the latest history entry
+    setCurrentMove(nextHistory.length - 1)
+    // No longer need it
+    // setXIsNext(!xIsNext)
   }
+
+  // Now, there is no chance for xIsNext to get out of sync with currentMove
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove)
-    setXIsNext(nextMove % 2 === 0)
+    // No longer need it
+    // setXIsNext(nextMove % 2 === 0)
   }
 
   // Use map to transform history of moves into React elements representing buttons
