@@ -55,36 +55,21 @@ export function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  // Do not store xIsNext as a separate state...
-  // const [xIsNext, setXIsNext] = useState(true)
   const [history, setHistory] = useState([Array(9).fill(null)])
-  // Keep track of which step the user is currently viewing
   const [currentMove, setCurrentMove] = useState(0)
-  // ... instead, figure it out based on the current move
   const xIsNext = currentMove % 2 === 0
-  // Render the currently selected move
   const currentSquares = history[currentMove]
 
   function handlePlay(nextSquares) {
-    // If you "go back in time" and then make a new move from that point
-    // You only want to keep the history up to that point
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
     setHistory(nextHistory)
-    // Each time a move is made, you need to update current move to point to the latest history entry
     setCurrentMove(nextHistory.length - 1)
-    // No longer need it
-    // setXIsNext(!xIsNext)
   }
-
-  // Now, there is no chance for xIsNext to get out of sync with currentMove
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove)
-    // No longer need it
-    // setXIsNext(nextMove % 2 === 0)
   }
 
-  // Use map to transform history of moves into React elements representing buttons
   const moves = history.map((squares, move) => {
     let description
 
@@ -93,9 +78,8 @@ export default function Game() {
     } else {
       description = "Go to game start"
     }
+
     return (
-      // In the history, each past move has a unique ID associated with it
-      // so it's safe to use the move index as a key
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
@@ -108,7 +92,6 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        {/* Display a list of buttons to jump to past moves */}
         <ol>{moves}</ol>
       </div>
     </div>
